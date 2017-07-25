@@ -27,10 +27,10 @@
             "ssh_password": "vagrant",
 
             // install from this vmx
-            "source_path": "output/{{ '{{' }} user `name` }}-{{ '{{' }} user `input_step_name` }}/packer-vmware-vmx-step2.vmx",
+            "source_path": "build/output/{{ '{{' }} user `name` }}-{{ '{{' }} user `input_step_name` }}/packer-vmware-vmx-step2.vmx",
 
             // put the final image here
-            "output_directory": "output/{{ '{{' }} user `name` }}-{{ '{{' }} user `step_name` }}",
+            "output_directory": "build/output/{{ '{{' }} user `name` }}-{{ '{{' }} user `step_name` }}",
 
             // upload vmware tools to the vm
             "tools_upload_flavor": "linux",
@@ -59,7 +59,7 @@
     "post-processors": [
         {
             "type": "vagrant",
-            "output": "boxes/{{ '{{' }} user `box_name` }}-{{ '{{' }} user `box_version` }}.box",
+            "output": "build/boxes/{{ '{{' }} user `box_name` }}-{{ '{{' }} user `box_version` }}.box",
             "keep_input_artifact": true,
             "vagrantfile_template": "config/Vagrantfile"
         }

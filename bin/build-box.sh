@@ -222,9 +222,9 @@ function build_step() {
 	echo cleaning step ${STEP}
 
 	# the output directories are at output/"distrel"-"step"
-	if [ -d ${MYROOT}/output/${DISTREL}-${STEP} ]; then
-	    echo removing ${MYROOT}/output/${DISTREL}-${STEP}
-	    rm -r ${MYROOT}/output/${DISTREL}-${STEP} || fail "clean failed"
+	if [ -d ${MYROOT}/build/output/${DISTREL}-${STEP} ]; then
+	    echo removing ${MYROOT}/build/output/${DISTREL}-${STEP}
+	    rm -r ${MYROOT}/build/output/${DISTREL}-${STEP} || fail "clean failed"
 	fi
     fi
 

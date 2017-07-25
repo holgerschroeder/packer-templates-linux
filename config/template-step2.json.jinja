@@ -25,10 +25,10 @@
             "ssh_password": "vagrant",
 
             // install from this vmx
-            "source_path": "output/{{ '{{' }} user `name` }}-{{ '{{' }} user `input_step_name` }}/packer-vmware-iso.vmx",
+            "source_path": "build/output/{{ '{{' }} user `name` }}-{{ '{{' }} user `input_step_name` }}/packer-vmware-iso.vmx",
 
             // put the final image here
-            "output_directory": "output/{{ '{{' }} user `name` }}-{{ '{{' }} user `step_name` }}",
+            "output_directory": "build/output/{{ '{{' }} user `name` }}-{{ '{{' }} user `step_name` }}",
 
             // graceful shutdown command
             "shutdown_command": "echo 'vagrant'|sudo -S /sbin/shutdown -hP now"
@@ -48,7 +48,7 @@
     "post-processors": [
         {
             "type": "vagrant",
-            "output": "boxes/{{ '{{' }} user `name` }}-{{ '{{' }} user `step_name` }}.box",
+            "output": "build/boxes/{{ '{{' }} user `name` }}-{{ '{{' }} user `step_name` }}.box",
             "keep_input_artifact": true
         }
     ]

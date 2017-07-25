@@ -46,7 +46,7 @@
             "iso_checksum": "{{ '{{' }} user `iso_checksum` }}",
 
             // put the final image here
-            "output_directory": "output/{{ '{{' }} user `name` }}-{{ '{{' }} user `step_name` }}",
+            "output_directory": "build/output/{{ '{{' }} user `name` }}-{{ '{{' }} user `step_name` }}",
 
             // start http server from this directory, needed for preseed files
             "http_directory": "http_dir",
@@ -67,7 +67,7 @@
     "post-processors": [
         {
             "type": "vagrant",
-            "output": "boxes/{{ '{{' }} user `name` }}-{{ '{{' }} user `step_name` }}.box",
+            "output": "build/boxes/{{ '{{' }} user `name` }}-{{ '{{' }} user `step_name` }}.box",
             "keep_input_artifact": true
         }
     ]
