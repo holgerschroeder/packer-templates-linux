@@ -5,6 +5,7 @@ name: common
 disk_size: 256000
 cpu_count: 2
 ram_size: 4096
+ssh_wait_timeout: 10m
 scripts_step2:
 - configure-package-repo-templates.sh
 - set-package-install-proxy-{{ target_net_type }}.sh

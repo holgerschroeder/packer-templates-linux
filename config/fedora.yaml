@@ -1,0 +1,16 @@
+---
+name: fedora
+parent: common
+ssh_wait_timeout: 20m
+boot_command: |
+  [
+  "<tab> ",
+  "inst.ks=http://{{.HTTPIP}}:{{.HTTPPort}}/{{ user `preseed_name`}} ",
+  "biosdevname=0 ",
+  "net.ifnames=0 ",
+  "<enter>"
+  ]
+scripts_step2:
+- install-packages-base.sh
+- install-packages-gui.sh
+- install-packages-convenience.sh
