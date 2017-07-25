@@ -1,0 +1,23 @@
+# this file will be loaded from vagrant, as it appears
+# in the chain of to-be-loaded config files, for details
+# see here:
+# https://www.vagrantup.com/docs/vagrantfile/
+
+# see here for details about the pcislotnumber warning
+# https://www.vagrantup.com/docs/vmware/boxes.html#vmx-whitelisting
+
+Vagrant.configure("2") do |config|
+  ["vmware_workstation", "vmware_fusion"].each do |vmware_provider|
+    config.vm.provider(vmware_provider) do |vmware|
+      # get rid of annoying "ethernet0.pcislotnumer" warning
+      vmware.whitelist_verified = true
+
+      # we want to make sure that we have the gui enabled
+      vmware.gui = true
+
+      # keep the ethernet0 pcislotnumber 33 in vagrant,
+      # as it was assigned by packer
+      vmware.vmx["ethernet0.pcislotnumber"] = "33"
+    end
+  end
+end
