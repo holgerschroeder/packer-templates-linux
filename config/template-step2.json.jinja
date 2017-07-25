@@ -1,0 +1,55 @@
+// here we configure step2 of a {{ name }} amd64 box installation
+{
+    "variables": {
+        "name": "{{ name }}",
+        "input_step_name": "step1",
+        "step_name": "step2"
+    },
+
+    "builders": [
+        {
+            // use vmware builder, start from vmx file
+            "type": "vmware-vmx",
+
+            // this vm_name gets rid of these silly broken vm names with an
+            // unexpanded timestamp in it...
+            // packer-vmware-vmx-{{timestamp}}.nvram etc.
+            // "vm_name": "packer-vmware-vmx-{{timestamp}}"
+            "vm_name": "packer-vmware-vmx-step2",
+
+            // show the vmware gui when installing
+            "headless": false,
+
+            // vagrant credentials
+            "ssh_username": "vagrant",
+            "ssh_password": "vagrant",
+
+            // install from this vmx
+            "source_path": "output/{{ '{{' }} user `name` }}-{{ '{{' }} user `input_step_name` }}/packer-vmware-iso.vmx",
+
+            // put the final image here
+            "output_directory": "output/{{ '{{' }} user `name` }}-{{ '{{' }} user `step_name` }}",
+
+            // graceful shutdown command
+            "shutdown_command": "echo 'vagrant'|sudo -S /sbin/shutdown -hP now"
+        }
+    ],
+
+    "provisioners": [
+        {
+            "type": "shell",
+            "execute_command": "echo 'vagrant' | sudo -E -S bash '{{ '{{' }}.Path}}'",
+            "scripts": [
+                {{ scripts_step2 }}
+            ]
+        }
+    ],
+
+    "post-processors": [
+        {
+            "type": "vagrant",
+            "output": "boxes/{{ '{{' }} user `name` }}-{{ '{{' }} user `step_name` }}.box",
+            "keep_input_artifact": true
+        }
+    ]
+}

@@ -1,0 +1,67 @@
+// here we configure step3 of a {{ name }} amd64 box installation
+{
+    "variables": {
+        "name": "{{ name }}",
+        "input_step_name": "step2",
+        "step_name": "step3",
+        "box_name": "{{ box_name }}",
+        "box_version": "{{ box_version }}"
+    },
+
+    "builders": [
+        {
+            // use vmware builder, start from vmx file
+            "type": "vmware-vmx",
+
+            // this vm_name gets rid of these silly broken vm names with an
+            // unexpanded timestamp in it...
+            // packer-vmware-vmx-{{timestamp}}.nvram etc.
+            // "vm_name": "packer-vmware-vmx-{{timestamp}}"
+            "vm_name": "packer-vmware-vmx-step3",
+
+            // show the vmware gui when installing
+            "headless": false,
+
+            // vagrant credentials
+            "ssh_username": "vagrant",
+            "ssh_password": "vagrant",
+
+            // install from this vmx
+            "source_path": "output/{{ '{{' }} user `name` }}-{{ '{{' }} user `input_step_name` }}/packer-vmware-vmx-step2.vmx",
+
+            // put the final image here
+            "output_directory": "output/{{ '{{' }} user `name` }}-{{ '{{' }} user `step_name` }}",
+
+            // upload vmware tools to the vm
+            "tools_upload_flavor": "linux",
+            "tools_upload_path": "/tmp/vmware-tools-linux.iso",
+
+            // graceful shutdown command
+            "shutdown_command": "echo 'vagrant'|sudo -S /sbin/shutdown -hP now"
+        }
+    ],
+
+    "provisioners": [
+        {
+            "type": "file",
+            "source": "files/vagrant.pub",
+            "destination": "/tmp/vagrant.pub"
+        },
+        {
+            "type": "shell",
+            "execute_command": "echo 'vagrant' | sudo -E -S bash '{{ '{{' }}.Path}}'",
+            "scripts": [
+                {{ scripts_step3 }}
+            ]
+        }
+    ],
+
+    "post-processors": [
+        {
+            "type": "vagrant",
+            "output": "boxes/{{ '{{' }} user `box_name` }}-{{ '{{' }} user `box_version` }}.box",
+            "keep_input_artifact": true,
+            "vagrantfile_template": "config/Vagrantfile"
+        }
+    ]
+}
