@@ -5,9 +5,6 @@
         "step_name": "step1",
         "preseed_name": "{{ preseed_name }}",
 
-        "iso_url": "{{ iso_url }}",
-        "iso_checksum": "{{ iso_checksum }}",
-
         // cpu count
         "cpu_count": "{{ cpu_count }}",
         // ram and disk size in megabytes
@@ -41,9 +38,12 @@
             "ssh_wait_timeout": "10m",
 
             // install from this iso image
-            "iso_url": "{{ '{{' }} user `iso_url` }}",
+            "iso_urls": [
+                {{ iso_urls }}
+            ],
+
             "iso_checksum_type": "sha256",
-            "iso_checksum": "{{ '{{' }} user `iso_checksum` }}",
+            "iso_checksum": "{{ iso_checksum }}",
 
             // put the final image here
             "output_directory": "build/output/{{ '{{' }} user `name` }}-{{ '{{' }} user `step_name` }}",

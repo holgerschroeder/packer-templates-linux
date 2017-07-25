@@ -2,7 +2,9 @@
 name: ubuntu-1704
 parent: ubuntu
 config_name: ubuntu-1704-step1-json
-iso_url: http://releases.ubuntu.com/17.04/ubuntu-17.04-server-amd64.iso
+iso_urls:
+- isos/ubuntu-17.04-server-amd64.iso
+- http://releases.ubuntu.com/17.04/ubuntu-17.04-server-amd64.iso
 iso_checksum: ca5d9a8438e2434b9a3ac2be67b5c5fa2c1f8e3e40b954519462935195464034
 preseed_name: preseed-ubuntu-1704.cfg
 box_name: ubuntu_1704_x64_base

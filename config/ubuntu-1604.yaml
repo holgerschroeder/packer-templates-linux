@@ -2,7 +2,9 @@
 name: ubuntu-1604
 parent: ubuntu
 config_name: ubuntu-1604-step1-json
-iso_url: http://releases.ubuntu.com/16.04.2/ubuntu-16.04.2-server-amd64.iso
+iso_urls:
+- isos/ubuntu-16.04.2-server-amd64.iso
+- http://releases.ubuntu.com/16.04.2/ubuntu-16.04.2-server-amd64.iso
 iso_checksum: 737ae7041212c628de5751d15c3016058b0e833fdc32e7420209b76ca3d0a535
 preseed_name: preseed-ubuntu-1604.cfg
 box_name: ubuntu_1604_x64_base

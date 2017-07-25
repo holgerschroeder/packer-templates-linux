@@ -263,6 +263,28 @@ def getScriptPath(scriptName, stepName, scriptSearchPathList):
     raise ValueError("getScriptPath: scriptName: %s stepName: %s error: script not found in search path" % (
         scriptName, stepName))
 
+def jsonListStringFromList(yamlList):
+    # here we take the entries in a list, and we
+    # convert them to a string that is a valid content of a json list
+
+    myString = ""
+
+    firstLoop = True
+    for item in yamlList:
+        print "got item: %s" % item
+
+        if firstLoop:
+            firstLoop = False
+        else:
+            # add line delimiter
+            myString+=",\n"
+
+        myString+='"%s"' % item
+
+    myString+="\n"
+
+    return myString
+
 
 def calculateScriptPaths(realConfig):
     # here we walk over the different realConfigs, and we try to
@@ -307,25 +329,15 @@ def calculateScriptPaths(realConfig):
 
             # now we need to format the scripts in a packer-json compatible way,
             # i.e. replace ' with "
-            myScriptsString = ""
+            realConfig[key] = jsonListStringFromList(tmpList)
 
-            firstLoop = True
-            for script in tmpList:
-                print "got script: %s" % script
-                
-                if firstLoop:
-                    firstLoop = False
-                else:
-                    # add line delimiter
-                    # we know the lines are indented by 16 spaces...
-                    myScriptsString+=",\n                "
-                    
-                myScriptsString+='"%s"' % script
-                
-            myScriptsString+="\n"
+def updateIsoUrls(realConfig):
+    # we need to hold the iso_urls yaml list as a string that
+    # represents a valid json list
 
-            realConfig[key] = myScriptsString
-
+    if "iso_urls" in realConfig:
+        iso_urls = realConfig["iso_urls"]
+        realConfig["iso_urls"] = jsonListStringFromList(iso_urls)
 
 def generateConfigFiles(realConfig, steps):
     # here we generate the configs for the given distribution release,
@@ -336,14 +348,15 @@ def generateConfigFiles(realConfig, steps):
     jinjaEnv = jinja2.Environment(loader=jinja2.FileSystemLoader('config'))
 
     for step in steps:
+        configFile = "build/%s-%s.json" % (distRelName, step)
         if args.debug:
-            print "generating config files for %s" % step
+            print "generating config file for %s: %s" % (step, myFile)
     
         try:
             templateFile = 'template-%s.json.jinja' % step
             template = jinjaEnv.get_template(templateFile)
             output_from_parsed_template = template.render(realConfig)
-            with open("build/%s-%s.json" % (distRelName, step) , "wb") as fh:
+            with open(configFile, "wb") as fh:
                 fh.write(output_from_parsed_template)
         except jinja2.exceptions.TemplateNotFound:
             print "error: template for step %s not found: %s" % (step, templateFile)
@@ -359,6 +372,8 @@ realConfig = realConfigs[distRelName]
 addUserVariablesToConfig(realConfig)
 
 calculateScriptPaths(realConfig)
+
+updateIsoUrls(realConfig)
 
 generateConfigFiles(realConfig, steps)
 
