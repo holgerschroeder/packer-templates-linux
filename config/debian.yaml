@@ -1,0 +1,43 @@
+---
+name: debian
+
+parent: common
+
+boot_command: |
+  [
+  "<esc><wait>",
+  "install ",
+  "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{ user `preseed_name`}} ",
+  "debian-installer=en_US ",
+  "auto ",
+  "locale=en_US ",
+  "kbd-chooser/method=us ",
+  "keyboard-configuration/xkb-keymap=us ",
+  "netcfg/get_hostname=debian ",
+  "netcfg/get_domain=none ",
+  "fb=false ",
+  "debconf/frontend=noninteractive ",
+  "console-setup/ask_detect=false ",
+  "console-keymaps-at/keymap=us ",
+  "<enter>"
+  ]
+
+scripts_step3:
+- install-vmware-tools.sh
+- setup-vagrant-user.sh
+- configure-system-proxy-templates.sh
+
+- set-system-proxy-{{ target_net_type }}.sh
+
+- select-package-repos-{{ target_net_type }}.sh
+
+- apt-get-update.sh
+
+- configure-shell.sh
+
+- set-keyboard-layout.sh
+- set-timezone.sh
+
+- finish-installation.sh
+
+- final-workarounds-{{ target_net_type }}.sh

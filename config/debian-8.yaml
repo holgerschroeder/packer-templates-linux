@@ -1,0 +1,7 @@
+---
+name: debian-8
+parent: debian
+iso_url: https://cdimage.debian.org/cdimage/archive/8.8.0/amd64/iso-cd/debian-8.8.0-amd64-netinst.iso
+iso_checksum: 2c07ff8cc766767610566297b8729740f923735e790c8e78b718fb93923b448e
+preseed_name: preseed-debian-8.cfg
+box_name: debian_8_x64_base

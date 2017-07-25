@@ -1,0 +1,8 @@
+---
+name: debian-9
+parent: debian
+iso_url: https://cdimage.debian.org/cdimage/archive/9.0.0/amd64/iso-cd/debian-9.0.0-amd64-netinst.iso
+iso_checksum: 9d98f339016dc2a3998881949a8f0678baede26b5106f18ef1168d7e13606773
+preseed_name: preseed-debian-9.cfg
+box_name: debian_9_x64_base
+

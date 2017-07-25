@@ -1,0 +1,16 @@
+---
+# here we set the common config options for all
+# different distribution releases
+name: common
+disk_size: 256000
+cpu_count: 2
+ram_size: 4096
+scripts_step2:
+- configure-package-repo-templates.sh
+- set-package-install-proxy-{{ target_net_type }}.sh
+- select-package-repos-{{ target_net_type }}.sh
+- install-packages-base.sh
+- install-packages-gui.sh
+- install-packages-convenience.sh
+- unset-package-install-proxy.sh
+- deselect-package-repos.sh
