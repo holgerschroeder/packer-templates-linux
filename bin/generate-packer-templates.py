@@ -82,7 +82,7 @@ def loadYamlConfig( yamlConfigs, fileName ):
     if "name" not in dict:
         raise ValueError("file: %s. error: no \"name\" attribute set." % fileName)
 
-    expectedName = fileName.split("/")[-1].split(".")[0]
+    expectedName = fileName.split(os.path.sep)[-1].split(".")[0]
 
     if not (expectedName == dict["name"]):
         raise ValueError("file: %s. error: \"name\" attribute does not match file name." % fileName)
